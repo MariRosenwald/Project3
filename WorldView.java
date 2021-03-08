@@ -63,7 +63,7 @@ final class WorldView
    {
       for (Entity entity : view.world.entities)
       {
-         Point pos = entity.position;
+         Point pos = entity.getPosition();
 
          if (view.viewport.contains(pos))
          {
@@ -71,6 +71,8 @@ final class WorldView
             view.screen.image(entity.getCurrentImage(entity),
                     viewPoint.x * view.tileWidth, viewPoint.y * view.tileHeight);
          }
+//         PImage img = VirtualWorld.loadImage("images/player.bmp");
+//         view.screen.image();
       }
    }
 
@@ -78,5 +80,8 @@ final class WorldView
    {
       drawBackground(view);
       drawEntities(view);
+   }
+
+   public void drawCharacter(WorldView view) {
    }
 }

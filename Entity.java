@@ -16,7 +16,7 @@ public abstract class Entity
    private static int PROPERTY_KEY = 0;
    public EntityKind kind;
    private String id;
-   public Point position;
+   private Point position;
    private List<PImage> images;
    private int imageIndex;
    private int resourceLimit;
@@ -49,6 +49,10 @@ public abstract class Entity
 
    protected Point getPosition(){
       return position;
+   }
+
+   public void setPosition(Point position) {
+      this.position = position;
    }
 
    protected int getActionPeriod(){

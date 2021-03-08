@@ -47,7 +47,7 @@ public class Octo extends Entity{
     public boolean moveToNotFull(WorldModel world,
                                  Entity target, EventScheduler scheduler)
     {
-        if (adjacent(this.position, target.position))
+        if (adjacent(this.getPosition(), target.getPosition()))
         {
             this.setResourceLimit(this.getResourceLimit()+1);
             world.removeEntity(target);
@@ -57,9 +57,9 @@ public class Octo extends Entity{
         }
         else
         {
-            Point nextPos = this.nextPositionOcto(world, target.position);
+            Point nextPos = this.nextPositionOcto(world, target.getPosition());
 
-            if (!this.position.equals(nextPos))
+            if (!this.getPosition().equals(nextPos))
             {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
@@ -76,15 +76,15 @@ public class Octo extends Entity{
     public boolean moveToFull(WorldModel world,
                               Entity target, EventScheduler scheduler)
     {
-        if (adjacent(this.position, target.position))
+        if (adjacent(this.getPosition(), target.getPosition()))
         {
             return true;
         }
         else
         {
-            Point nextPos = this.nextPositionOcto(world, target.position);
+            Point nextPos = this.nextPositionOcto(world, target.getPosition());
 
-            if (!this.position.equals(nextPos))
+            if (!this.getPosition().equals(nextPos))
             {
                 Optional<Entity> occupant = world.getOccupant(nextPos);
                 if (occupant.isPresent())
