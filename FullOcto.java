@@ -25,7 +25,7 @@ public class FullOcto extends Octo{
         }
         else
         {
-            scheduler.scheduleEvent(new FullOcto(kind, this.getId(), position, this.getImages(), this.getResourceLimit(), this.getResourceCount(), this.getActionPeriod(), this.getAnimationPeriod()),
+            scheduler.scheduleEvent(new FullOcto(kind, this.getId(), this.getPosition(), this.getImages(), this.getResourceLimit(), this.getResourceCount(), this.getActionPeriod(), this.getAnimationPeriod()),
                     createActivityAction(world, imageStore),
                     this.getActionPeriod());
         }

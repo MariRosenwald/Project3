@@ -19,7 +19,7 @@ public class SGrass extends Fish{
 
     public void executeActivity(WorldModel world, ImageStore imageStore, EventScheduler scheduler)
     {
-        Optional<Point> openPt = world.findOpenAround(this.position);
+        Optional<Point> openPt = world.findOpenAround(this.getPosition());
 
         if (openPt.isPresent())
         {

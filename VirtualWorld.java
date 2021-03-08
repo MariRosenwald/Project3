@@ -1,5 +1,8 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import processing.core.*;
 
@@ -49,6 +52,10 @@ public final class VirtualWorld
 
    public long next_time;
 
+   PImage img = this.loadImage("images/player.bmp");
+   List<PImage> playerImages = Arrays.asList(img);
+   Player player = new Player(EntityKind.PLAYER,"player",new Point(1,1), playerImages, 0,0,0,0);
+
    public void settings()
    {
       size(VIEW_WIDTH, VIEW_HEIGHT);
@@ -69,6 +76,7 @@ public final class VirtualWorld
 
       loadImages(IMAGE_LIST_FILE_NAME, imageStore, this);
       loadWorld(world, LOAD_FILE_NAME, imageStore);
+//      loadCharacter("images/player.bmp", this, world);
 
       Entity.scheduleActions(world, scheduler, imageStore);
 
@@ -83,8 +91,10 @@ public final class VirtualWorld
          this.scheduler.updateOnTime(time);
          next_time = time + TIMER_ACTION_PERIOD;
       }
-
+//
       view.drawViewport(view);
+      view.drawCharacter(view);
+      loadCharacter("",this,world, player);
    }
 
    public void keyPressed()
@@ -98,15 +108,19 @@ public final class VirtualWorld
          {
             case UP:
                dy = -1;
+               player.changeY(-1);
                break;
             case DOWN:
                dy = 1;
+               player.changeY(1);
                break;
             case LEFT:
                dx = -1;
+               player.changeX(-1);
                break;
             case RIGHT:
                dx = 1;
+               player.changeX(1);
                break;
          }
          view.shiftView(dx, dy);
@@ -145,6 +159,21 @@ public final class VirtualWorld
          System.err.println(e.getMessage());
       }
    }
+
+   private static void loadCharacter(String filename, PApplet screen, WorldModel world, Entity p)
+   {
+      try{
+         //below line is never used fyi
+         Scanner in = new Scanner((new File("images/player.bmp")));
+
+         world.addEntity(p);
+
+      } catch (FileNotFoundException e) {
+         e.printStackTrace();
+      }
+
+   }
+
 
    public static void loadWorld(WorldModel world, String filename,
       ImageStore imageStore)
