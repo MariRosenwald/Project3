@@ -1,5 +1,4 @@
-import java.io.File;
-import java.io.FileNotFoundException;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,8 +21,10 @@ public final class VirtualWorld
    public static final int VIEW_HEIGHT = 480;
    public static final int TILE_WIDTH = 32;
    public static final int TILE_HEIGHT = 32;
-   public static final int WORLD_WIDTH_SCALE = 2;
-   public static final int WORLD_HEIGHT_SCALE = 2;
+   //og : 2
+   public static final int WORLD_WIDTH_SCALE = 4;
+   //og: 2
+   public static final int WORLD_HEIGHT_SCALE = 1;
 
    public static final int VIEW_COLS = VIEW_WIDTH / TILE_WIDTH;
    public static final int VIEW_ROWS = VIEW_HEIGHT / TILE_HEIGHT;
@@ -54,7 +55,7 @@ public final class VirtualWorld
 
    PImage img = this.loadImage("images/player.bmp");
    List<PImage> playerImages = Arrays.asList(img);
-   Player player = new Player(EntityKind.PLAYER,"player",new Point(1,1), playerImages, 0,0,0,0);
+   Player player = new Player(EntityKind.PLAYER,"player",new Point(10,10), playerImages, 0,0,0,0);
 
    public void settings()
    {
@@ -66,6 +67,7 @@ public final class VirtualWorld
    */
    public void setup()
    {
+//      addTiles();
       this.imageStore = new ImageStore(
          createImageColored(TILE_WIDTH, TILE_HEIGHT, DEFAULT_IMAGE_COLOR));
       this.world = new WorldModel(WORLD_ROWS, WORLD_COLS,
@@ -81,6 +83,22 @@ public final class VirtualWorld
       Entity.scheduleActions(world, scheduler, imageStore);
 
       next_time = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
+   }
+
+   private void addTiles() {
+//         SINGLE USE ONLY DON'T RUN AGAIN
+      try {
+         FileWriter fw = new FileWriter(LOAD_FILE_NAME, true);
+         for (int t = 41; t < 80; t++) {
+            for (int i = 0; i < 15; i++) {
+               fw.write("\nbackground sea " + t + " " + i);
+            }
+         }
+         fw.close();
+
+      }
+      catch(IOException e) {
+      }
    }
 
    public void draw()
@@ -99,32 +117,57 @@ public final class VirtualWorld
 
    public void keyPressed()
    {
+      int change = 1;
+      if(keyCode == 'A')
+         view.shiftView(-10,-10);
+      if(keyCode =='D')
+         view.shiftView(10,10);
       if (key == CODED)
       {
          int dx = 0;
          int dy = 0;
-
+         Point p;
          switch (keyCode)
          {
             case UP:
-               dy = -1;
-               player.changeY(-1);
+               p = new Point(player.getPosition().x, player.getPosition().y-change);
+               if(!world.isOccupied(p)) {
+                  world.moveEntity(player, p);
+                  dy = -1;
+               }
                break;
             case DOWN:
-               dy = 1;
-               player.changeY(1);
+               p = new Point(player.getPosition().x, player.getPosition().y+change);
+               if(!world.isOccupied(p)) {
+                  world.moveEntity(player, p);
+                  dy = 1;
+               }
                break;
             case LEFT:
-               dx = -1;
-               player.changeX(-1);
+               p = new Point(player.getPosition().x-change, player.getPosition().y);
+               if(!world.isOccupied(p)) {
+                  world.moveEntity(player, p);
+                  dx = -1;
+               }
                break;
             case RIGHT:
-               dx = 1;
-               player.changeX(1);
+               p = new Point(player.getPosition().x+change, player.getPosition().y);
+               if(!world.isOccupied(p)) {
+                  world.moveEntity(player, p);
+                  dx = 1;
+               }
                break;
          }
-         view.shiftView(dx, dy);
+         view.shiftView(dx,dy);
+         System.out.println(player.getPosition());
       }
+
+   }
+
+   public boolean collide(int x, int y)
+   {
+      System.out.println(world.isOccupied(new Point(x,y)));
+      return world.isOccupied(new Point(x,y));
    }
 
    public static Background createDefaultBackground(ImageStore imageStore)
