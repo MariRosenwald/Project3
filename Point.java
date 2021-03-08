@@ -29,4 +29,9 @@ final class Point
       return result;
    }
 
+   public boolean adjacent(Point p)
+   {
+      return (x == p.x && Math.abs(y - p.y) == 1) ||
+              (y == p.y && Math.abs(x - p.x) == 1);
+   }
 }
