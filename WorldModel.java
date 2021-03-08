@@ -53,6 +53,11 @@ final class WorldModel
 
    public boolean isOccupied(Point pos)
    {
+//      System.out.println("Bounds is " + withinBounds(pos));
+//      System.out.println(pos);
+//      System.out.println(getOccupancyCell(pos));
+//      System.out.println("getOccu is " + getOccupancyCell(pos) != null);
+
       return withinBounds(pos) &&
               getOccupancyCell(pos) != null;
    }
