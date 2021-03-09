@@ -230,7 +230,19 @@ final class WorldModel
               po ->  withinBounds(po) && !this.isOccupied(po),
               (p1, p2) -> neighbors(p1,p2),
               PathingStrategy.CARDINAL_NEIGHBORS);
-      return points.get(0);
+      try
+      {
+         return points.get(0);
+      }
+      catch (IndexOutOfBoundsException e)
+      {
+         System.out.println("YOU LOST YOU GOT KILLED BY BAD GUY");
+         return c.getPosition();
+      }
+
+
+
+
    }
 
    private static boolean neighbors(Point p1, Point p2) {

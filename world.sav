@@ -1,38 +1,132 @@
 obstacle obstacle_6_3 6 3
 obstacle obstacle_5_6 5 6
-seaGrass seaGrass_7_11 7 11 9377
-seaGrass seaGrass_8_11 8 11 13146
-seaGrass seaGrass_6_11 6 11 15026
-atlantis atlantis_0_29 0 29
-atlantis atlantis_19_29 19 29
-atlantis atlantis_39_29 39 29
-atlantis atlantis_39_14 39 14
-obstacle obstacle_3_9 3 9
+obstacle obstacle_11_4 11 4
+obstacle obstacle_12_4 12 4
 obstacle obstacle_3_8 3 8
 obstacle obstacle_4_9 4 7
 obstacle obstacle_6_6 6 6
+obstacle obstacle_21_1 21 1
+obstacle obstacle_22_1 22 1
+obstacle obstacle_23_1 23 1
+obstacle obstacle_20_2 20 2
+obstacle obstacle_20_4 20 4
+obstacle obstacle_19_4 19 4
+obstacle obstacle_21_4 21 4
+obstacle obstacle_22_3 22 3
+obstacle obstacle_23_3 23 3
+obstacle obstacle_24_3 24 3
 obstacle obstacle_6_5 6 5
 obstacle obstacle_6_4 6 4
+obstacle obstacle_23_7 23 7
+obstacle obstacle_23_8 23 8
+obstacle obstacle_24_8 24 8
+obstacle obstacle_24_7 24 7
+obstacle obstacle_24_6 24 6
+obstacle obstacle_25_6 25 6
+obstacle obstacle_25_7 25 7
 obstacle obstacle_6_3 6 3
 obstacle obstacle_6_2 6 2
 obstacle obstacle_7_2 7 2
 obstacle obstacle_8_2 8 2
 obstacle obstacle_9_2 9 2
 obstacle obstacle_10_2 10 2
-obstacle obstacle_8_4 8 4
 obstacle obstacle_9_4 9 4
 obstacle obstacle_10_4 10 4
-atlantis atlantis_39_0 39 0
-atlantis atlantis_20_0 20 0
-atlantis atlantis_19_14 19 14
-atlantis atlantis_0_11 0 11
-seaGrass seaGrass_33_11 33 11 10278
-seaGrass seaGrass_33_13 33 13 10865
-seaGrass seaGrass_33_3 33 3 11101
-seaGrass seaGrass_27_6 27 6 9456
-seaGrass seaGrass_28_23 28 23 13422
-seaGrass seaGrass_34_19 34 19 11702
-seaGrass seaGrass_21_20 21 20 9294
+obstacle obstacle_0_1 0 1
+obstacle obstacle_1_1 1 1
+obstacle obstacle_2_1 2 1
+obstacle obstacle_3_1 3 1
+obstacle obstacle_5_0 5 0
+obstacle obstacle_5_1 5 1
+obstacle obstacle_5_2 5 2
+obstacle obstacle_5_3 5 3
+obstacle obstacle_4_3 4 3
+obstacle obstacle_3_3 3 3
+obstacle obstacle_2_3 2 3
+obstacle obstacle_1_3 1 3
+obstacle obstacle_3_10 3 10
+obstacle obstacle_7_9 7 9
+obstacle obstacle_8_9 8 9
+obstacle obstacle_9_9 9 9
+obstacle obstacle_16_2 16 2
+obstacle obstacle_17_2 17 2
+obstacle obstacle_5_4 5 4
+obstacle obstacle_5_5 5 5
+obstacle obstacle_0_5 0 5
+obstacle obstacle_1_5 1 5
+obstacle obstacle_2_5 2 5
+obstacle obstacle_3_5 3 5
+obstacle obstacle_1_7 1 7
+obstacle obstacle_2_7 2 7
+obstacle obstacle_3_7 3 7
+obstacle obstacle_4_11 4 11
+obstacle obstacle_5_11 5 11
+obstacle obstacle_6_11 6 11
+obstacle obstacle_7_12 7 12
+obstacle obstacle_8_12 8 12
+obstacle obstacle_8_13 8 13
+obstacle obstacle_9_13 9 13
+obstacle obstacle_13_13 13 13
+obstacle obstacle_16_13 16 13
+obstacle obstacle_16_12 16 12
+obstacle obstacle_12_7 12 7
+obstacle obstacle_11_7 11 7
+obstacle obstacle_10_8 10 8
+obstacle obstacle_6_0 6 0
+obstacle obstacle_6_1 6 1
+obstacle obstacle_13_7 13 7
+obstacle obstacle_14_7 14 7
+obstacle obstacle_15_7 15 7
+obstacle obstacle_14_6 14 6
+obstacle obstacle_18_12 18 12
+obstacle obstacle_18_13 18 13
+obstacle obstacle_19_13 19 13
+obstacle obstacle_20_11 20 11
+obstacle obstacle_21_11 21 11
+obstacle obstacle_22_11 22 11
+obstacle obstacle_23_11 23 11
+obstacle obstacle_27_3 27 3
+obstacle obstacle_28_3 28 3
+obstacle obstacle_29_3 29 3
+obstacle obstacle_25_11 25 11
+obstacle obstacle_26_10 26 10
+obstacle obstacle_26_11 26 11
+obstacle obstacle_27_10 27 10
+obstacle obstacle_27_9 27 9
+obstacle obstacle_25_12 25 12
+obstacle obstacle_26_13 26 13
+obstacle obstacle_27_13 27 13
+obstacle obstacle_25_13 25 13
+obstacle obstacle_15_6 15 6
+obstacle obstacle_16_7 16 7
+obstacle obstacle_17_11 17 11
+obstacle obstacle_17_1 17 1
+obstacle obstacle_40_2 40 2
+obstacle obstacle_18_1 18 1
+obstacle obstacle_17_7 17 7
+obstacle obstacle_18_7 18 7
+obstacle obstacle_19_7 19 7
+obstacle obstacle_7_1 7 1
+obstacle obstacle_8_1 8 1
+obstacle obstacle_9_0 9 0
+obstacle obstacle_9_1 9 1
+obstacle obstacle_13_4 13 4
+obstacle obstacle_11_2 11 2
+obstacle obstacle_12_1 12 1
+obstacle obstacle_14_3 14 3
+obstacle obstacle_15_3 15 3
+obstacle obstacle_16_3 16 3
+obstacle obstacle_10_13 10 13
+obstacle obstacle_11_13 11 13
+obstacle obstacle_12_13 12 13
+obstacle obstacle_10_11 10 11
+obstacle obstacle_11_11 11 11
+obstacle obstacle_14_13 14 13
+obstacle obstacle_15_13 15 13
+obstacle obstacle_14_9 14 9
+obstacle obstacle_15_9 15 9
+obstacle obstacle_14_10 14 10
+obstacle obstacle_15_10 15 10
 obstacle obstacle_5_20 5 20
 obstacle obstacle_7_21 7 21
 obstacle obstacle_12_22 12 22
@@ -55,19 +149,6 @@ obstacle obstacle_13_22 13 22
 obstacle obstacle_14_23 14 23
 obstacle obstacle_14_24 14 24
 obstacle obstacle_11_21 11 21
-octo octo_12_23 12 23 2 954 100
-seaGrass seaGrass_14_22 14 22 8248
-seaGrass seaGrass_10_25 10 25 8366
-octo octo_6_25 6 25 2 930 100
-octo octo_17_22 17 22 2 982 100
-octo octo_7_13 7 13 2 913 100
-octo octo_23_6 23 6 2 777 100
-octo octo_37_6 37 6 2 991 100
-octo octo_37_10 37 10 2 600 100
-octo octo_37_18 37 18 2 888 100
-octo octo_31_15 31 15 2 933 100
-octo octo_31_26 31 26 2 734 100
-octo octo_24_26 24 26 2 851 100
 obstacle obstacle_27_25 27 25
 obstacle obstacle_28_25 28 25
 obstacle obstacle_29_26 29 26
@@ -1280,7 +1361,6 @@ background sea 39 29
 background sea 40 0
 background sea 40 1
 background sea 40 2
-obstacle obstacle_40_2 40 2
 background sea 40 3
 background sea 40 4
 background sea 40 5

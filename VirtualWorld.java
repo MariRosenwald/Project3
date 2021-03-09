@@ -54,23 +54,17 @@ public final class VirtualWorld
    public long next_time;
 
    PImage img = this.loadImage("images/player1.bmp");
-
    PImage img2 = this.loadImage("images/player2.bmp");
-
    PImage img3 = this.loadImage("images/player3.bmp");
-
    PImage img4 = this.loadImage("images/player4.bmp");
-   List<PImage> playerImages = Arrays.asList(img, img2, img3, img4);
-   Player player = new Player(EntityKind.PLAYER,"player",new Point(10,10), playerImages, 0,0,0,4);
 
+   List<PImage> playerImages = Arrays.asList(img, img2, img3, img4);
+   Player player = new Player(EntityKind.PLAYER,"player",new Point(4,9), playerImages, 0,0,0,4);
 
    PImage chaserImg = this.loadImage("images/s1.bmp");
    List<PImage> chaserImages = Arrays.asList(chaserImg);
-   chasers chaser1 = new chasers(EntityKind.CHASERS,"chaser1",new Point(0,10), chaserImages, 0,0,0,0);
+   chasers chaser1 = new chasers(EntityKind.CHASERS,"chaser1",new Point(7,0), chaserImages, 0,0,0,0);
    chasers chaser2 = new chasers(EntityKind.CHASERS,"chaser2",new Point(0,0), chaserImages, 0,0,0,0);
-
-
-
 
    public void settings()
    {
@@ -127,15 +121,17 @@ public final class VirtualWorld
 //
       view.drawViewport(view);
       view.drawCharacter(view);
-      loadCharacter("",this,world, player, chaser1);
+      loadCharacter("",this,world, player);
+      loadChaser("", this, world, chaser1);
       loadChaser("", this, world, chaser2);
 
-      //moveChaser(world, player, chaser1);
+      //this causes the game to crash because there is no way to get to player
+//      moveChaser(world, player, chaser1);
    }
 
    public void keyPressed()
    {
-      this.moveChaser(world, player, chaser1);
+//      this.moveChaser(world, player, chaser1);
 
       this.moveChaser(world, player, chaser2);
 
@@ -187,11 +183,6 @@ public final class VirtualWorld
 
    }
 
-   public boolean collide(int x, int y)
-   {
-      System.out.println(world.isOccupied(new Point(x,y)));
-      return world.isOccupied(new Point(x,y));
-   }
 
    public static Background createDefaultBackground(ImageStore imageStore)
    {
@@ -226,14 +217,13 @@ public final class VirtualWorld
       }
    }
 
-   private static void loadCharacter(String filename, PApplet screen, WorldModel world, Entity p, Entity p1)
+   private static void loadCharacter(String filename, PApplet screen, WorldModel world, Entity p)
    {
       try{
          //below line is never used fyi
          Scanner in = new Scanner((new File("images/player1.bmp")));
 
          world.addEntity(p);
-         world.addEntity(p1);
 
       } catch (FileNotFoundException e) {
          e.printStackTrace();
@@ -255,23 +245,11 @@ public final class VirtualWorld
 
    }
 
-//   private Entity setupChaser(String filename, WorldModel world)
-//   {
-//
-//      PImage img = this.loadImage("images/s1.bmp");
-//      List<PImage> playerImages = Arrays.asList(img);
-//      Entity chaser = new chasers(EntityKind.CHASERS,"chaser",new Point(1,1), playerImages, 0,0,0,0);
-//      world.addEntity(chaser);
-//      return chaser;
-//
-//   }
 
    private void moveChaser(WorldModel world, Entity p, chasers chaser){
       Point next = world.nextPoint(chaser, player);
       world.moveEntity(chaser, next);
    }
-
-
 
    public static void loadWorld(WorldModel world, String filename,
       ImageStore imageStore)
@@ -284,6 +262,35 @@ public final class VirtualWorld
       catch (FileNotFoundException e)
       {
          System.err.println(e.getMessage());
+      }
+   }
+
+   private Point mouseToPoint(int x, int y)
+   {
+      return new Point(mouseX/32, mouseY/32);
+   }
+
+   public void mousePressed()
+   {
+      int section = 0;
+      Point pressed1 = mouseToPoint(mouseX, mouseY);
+      Point pressed = new Point(pressed1.x+section, pressed1.y);
+      writeWalls(pressed);
+
+
+   }
+
+   private void writeWalls(Point p) {
+//         SINGLE USE ONLY DON'T RUN AGAIN
+      try {
+         FileWriter fw = new FileWriter("james_world.sav", true);
+         String msg = "obstacle obstacle_" + p.x + "_" + p.y + " " + p.x +" " + p.y + "\n";
+         System.out.println(msg);
+         fw.write(msg);
+         fw.close();
+
+      }
+      catch(IOException ignored) {
       }
    }
 
