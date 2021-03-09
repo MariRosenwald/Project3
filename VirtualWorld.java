@@ -1,5 +1,6 @@
 import java.io.*;
 import java.util.ArrayList;
+import java.util.concurrent.TimeUnit;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
@@ -57,6 +58,7 @@ public final class VirtualWorld
    PImage img2 = this.loadImage("images/player2.bmp");
    PImage img3 = this.loadImage("images/player3.bmp");
    PImage img4 = this.loadImage("images/player4.bmp");
+   boolean pastFirstCheckpoint = false;
 
    List<PImage> playerImages = Arrays.asList(img, img2, img3, img4);
    Player player = new Player(EntityKind.PLAYER,"player",new Point(4,9), playerImages, 0,0,0,4);
@@ -124,14 +126,37 @@ public final class VirtualWorld
       loadCharacter("",this,world, player);
       loadChaser("", this, world, chaser1);
       loadChaser("", this, world, chaser2);
+      if(player.getPosition().x > 10)
+         pastFirstCheckpoint = true;
+
 
       //this causes the game to crash because there is no way to get to player
 //      moveChaser(world, player, chaser1);
+
+
+      //this makes the character not get stuck onthe border and shifts view by 1 if on the border.
+      center();
    }
+
+   public void center()
+   {
+      System.out.println(view.getViewport().col);
+      if(view.getViewport().col == player.getPosition().x)
+      {
+         view.shiftView(-3,0);
+      }
+      if(view.getViewport().col+19 == player.getPosition().x)
+      {
+         view.shiftView(3,0);
+      }
+
+   }
+
 
    public void keyPressed()
    {
-//      this.moveChaser(world, player, chaser1);
+      if(pastFirstCheckpoint)
+         this.moveChaser(world, player, chaser1);
 
       this.moveChaser(world, player, chaser2);
 
@@ -178,7 +203,6 @@ public final class VirtualWorld
                break;
          }
          view.shiftView(dx,dy);
-         System.out.println(player.getPosition());
       }
 
    }

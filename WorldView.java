@@ -84,4 +84,8 @@ final class WorldView
 
    public void drawCharacter(WorldView view) {
    }
+
+   public Viewport getViewport() {
+      return viewport;
+   }
 }
