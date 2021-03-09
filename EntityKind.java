@@ -8,5 +8,6 @@ enum EntityKind
    CRAB,
    QUAKE,
    SGRASS,
-   PLAYER
+   PLAYER,
+   CHASERS
 }
