@@ -57,6 +57,11 @@ public final class VirtualWorld
    List<PImage> playerImages = Arrays.asList(img);
    Player player = new Player(EntityKind.PLAYER,"player",new Point(10,10), playerImages, 0,0,0,0);
 
+
+   PImage chaserImg = this.loadImage("images/s1.bmp");
+   List<PImage> chaserImages = Arrays.asList(chaserImg);
+   chasers chaser1 = new chasers(EntityKind.CHASERS,"chaser1",new Point(0,10), chaserImages, 0,0,0,0);
+
    public void settings()
    {
       size(VIEW_WIDTH, VIEW_HEIGHT);
@@ -112,7 +117,9 @@ public final class VirtualWorld
 //
       view.drawViewport(view);
       view.drawCharacter(view);
-      loadCharacter("",this,world, player);
+      loadCharacter("",this,world, player, chaser1);
+
+      //moveChaser(world, player, chaser1);
    }
 
    public void keyPressed()
@@ -122,6 +129,10 @@ public final class VirtualWorld
          view.shiftView(-10,-10);
       if(keyCode =='D')
          view.shiftView(10,10);
+      if(keyCode =='S') {
+         System.out.println("Pressed s");
+         this.moveChaser(world, player, chaser1);
+      }
       if (key == CODED)
       {
          int dx = 0;
@@ -203,19 +214,37 @@ public final class VirtualWorld
       }
    }
 
-   private static void loadCharacter(String filename, PApplet screen, WorldModel world, Entity p)
+   private static void loadCharacter(String filename, PApplet screen, WorldModel world, Entity p, Entity p1)
    {
       try{
          //below line is never used fyi
          Scanner in = new Scanner((new File("images/player.bmp")));
 
          world.addEntity(p);
+         world.addEntity(p1);
 
       } catch (FileNotFoundException e) {
          e.printStackTrace();
       }
 
    }
+
+   private Entity setupChaser(String filename, WorldModel world)
+   {
+
+      PImage img = this.loadImage("images/s1.bmp");
+      List<PImage> playerImages = Arrays.asList(img);
+      Entity chaser = new chasers(EntityKind.CHASERS,"chaser",new Point(1,1), playerImages, 0,0,0,0);
+      world.addEntity(chaser);
+      return chaser;
+
+   }
+
+   private void moveChaser(WorldModel world, Entity p, chasers chaser){
+      Point next = world.nextPoint(chaser, player);
+      world.moveEntity(chaser, next);
+   }
+
 
 
    public static void loadWorld(WorldModel world, String filename,

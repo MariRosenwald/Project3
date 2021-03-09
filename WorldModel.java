@@ -17,6 +17,8 @@ final class WorldModel
 
    public static final int FISH_REACH = 1;
 
+   private PathingStrategy strategy = new AStarPathingStrategy();
+
    public WorldModel(int numRows, int numCols, Background defaultBackground)
    {
       this.numRows = numRows;
@@ -221,5 +223,22 @@ final class WorldModel
       }
       return Optional.empty();
    }
+
+   public Point nextPoint(chasers c, Player p){
+      //System.out.println(getOccupancyCell(po));
+      List<Point> points = strategy.computePath(c.getPosition(), p.getPosition(),
+              po ->  withinBounds(po) && !this.isOccupied(po),
+              (p1, p2) -> neighbors(p1,p2),
+              PathingStrategy.CARDINAL_NEIGHBORS);
+      return points.get(0);
+   }
+
+   private static boolean neighbors(Point p1, Point p2) {
+      return p1.x + 1 == p2.x && p1.y == p2.y ||
+              p1.x - 1 == p2.x && p1.y == p2.y ||
+              p1.x == p2.x && p1.y + 1 == p2.y ||
+              p1.x == p2.x && p1.y - 1 == p2.y;
+   }
+
 
 }
