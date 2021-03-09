@@ -46,6 +46,8 @@ public final class VirtualWorld
    public static final double FASTEST_SCALE = 0.10;
 
    public static double timeScale = 1.0;
+   private boolean start= true;
+   private boolean redraw=false;
 
    public ImageStore imageStore;
    public WorldModel world;
@@ -111,32 +113,82 @@ public final class VirtualWorld
       catch(IOException e) {
       }
    }
-
    public void draw()
    {
-      long time = System.currentTimeMillis();
-      if (time >= next_time)
+      if (start)
       {
-         this.scheduler.updateOnTime(time);
-         next_time = time + TIMER_ACTION_PERIOD;
+         background(255, 255, 0);
+         textSize(40);
+         fill(0, 0, 0);
+         text("WELCOME TO BEACH RUN", 70, 150);
+         textSize(25);
+         fill(50, 50, 50);
+         text("Click here to start", 170, 250);
+         fill(0, 102, 153, 51);
+         start= false;
       }
+
+      if(redraw) {
+         long time = System.currentTimeMillis();
+         if (time >= next_time) {
+            this.scheduler.updateOnTime(time);
+            next_time = time + TIMER_ACTION_PERIOD;
+         }
 //
-      view.drawViewport(view);
-      view.drawCharacter(view);
-      loadCharacter("",this,world, player);
-      loadChaser("", this, world, chaser1);
-      loadChaser("", this, world, chaser2);
-      if(player.getPosition().x > 10)
-         pastFirstCheckpoint = true;
-
-
-      //this causes the game to crash because there is no way to get to player
-//      moveChaser(world, player, chaser1);
-
-
-      //this makes the character not get stuck onthe border and shifts view by 1 if on the border.
-      center();
+         view.drawViewport(view);
+         view.drawCharacter(view);
+         loadCharacter("",this,world, player);
+         loadChaser("", this, world, chaser1);
+         loadChaser("", this, world, chaser2);
+         if(player.getPosition().x > 10)
+            pastFirstCheckpoint = true;
+         center();
+      }
    }
+
+//   public void mousePressed()
+//   {
+//      redraw= true;
+//
+//   }
+   public void mousePressed()
+   {
+      if (start==false){
+         redraw=true;
+      }
+      int section = 0;
+      Point pressed1 = mouseToPoint(mouseX, mouseY);
+      Point pressed = new Point(pressed1.x+section, pressed1.y);
+      writeWalls(pressed);
+
+
+   }
+
+//   public void draw()
+//   {
+//      long time = System.currentTimeMillis();
+//      if (time >= next_time)
+//      {
+//         this.scheduler.updateOnTime(time);
+//         next_time = time + TIMER_ACTION_PERIOD;
+//      }
+////
+//      view.drawViewport(view);
+//      view.drawCharacter(view);
+//      loadCharacter("",this,world, player);
+//      loadChaser("", this, world, chaser1);
+//      loadChaser("", this, world, chaser2);
+//      if(player.getPosition().x > 10)
+//         pastFirstCheckpoint = true;
+//
+//
+//      //this causes the game to crash because there is no way to get to player
+////      moveChaser(world, player, chaser1);
+//
+//
+//      //this makes the character not get stuck onthe border and shifts view by 1 if on the border.
+//      center();
+//   }
 
    public void center()
    {
@@ -294,15 +346,7 @@ public final class VirtualWorld
       return new Point(mouseX/32, mouseY/32);
    }
 
-   public void mousePressed()
-   {
-      int section = 0;
-      Point pressed1 = mouseToPoint(mouseX, mouseY);
-      Point pressed = new Point(pressed1.x+section, pressed1.y);
-      writeWalls(pressed);
 
-
-   }
 
    private void writeWalls(Point p) {
 //         SINGLE USE ONLY DON'T RUN AGAIN
