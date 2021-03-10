@@ -63,6 +63,7 @@ public final class VirtualWorld
    PImage img3 = this.loadImage("images/player3.bmp");
    PImage img4 = this.loadImage("images/player4.bmp");
    boolean pastFirstCheckpoint = false;
+   boolean pastSecondCheckpoint = false;
 
    List<PImage> playerImages = Arrays.asList(img, img2, img3, img4);
    Player player = new Player(EntityKind.PLAYER,"player",new Point(4,9), playerImages, 0,0,0,4, alive);
@@ -71,6 +72,13 @@ public final class VirtualWorld
    List<PImage> chaserImages = Arrays.asList(chaserImg);
    chasers chaser1 = new chasers(EntityKind.CHASERS,"chaser1",new Point(7,0), chaserImages, 0,0,0,0);
    chasers chaser2 = new chasers(EntityKind.CHASERS,"chaser2",new Point(0,0), chaserImages, 0,0,0,0);
+   chasers chaser3 = new chasers(EntityKind.CHASERS,"chaser3",new Point(31,14), chaserImages, 0,0,0,0);
+
+   PImage goalImg = this.loadImage("images/atlantis0.bmp");
+   List<PImage> goalImgs = Arrays.asList(goalImg);
+   Goal goal = new Goal(EntityKind.GOAL,"goal",new Point(79,4), goalImgs, 0,0,0,0);
+
+
 
    public void settings()
    {
@@ -82,7 +90,6 @@ public final class VirtualWorld
    */
    public void setup()
    {
-//      addTiles();
       this.imageStore = new ImageStore(
          createImageColored(TILE_WIDTH, TILE_HEIGHT, DEFAULT_IMAGE_COLOR));
       this.world = new WorldModel(WORLD_ROWS, WORLD_COLS,
@@ -93,28 +100,12 @@ public final class VirtualWorld
 
       loadImages(IMAGE_LIST_FILE_NAME, imageStore, this);
       loadWorld(world, LOAD_FILE_NAME, imageStore);
-//      loadCharacter("images/player.bmp", this, world);
 
       Entity.scheduleActions(world, scheduler, imageStore);
 
       next_time = System.currentTimeMillis() + TIMER_ACTION_PERIOD;
    }
 
-   private void addTiles() {
-//         SINGLE USE ONLY DON'T RUN AGAIN
-      try {
-         FileWriter fw = new FileWriter(LOAD_FILE_NAME, true);
-         for (int t = 41; t < 80; t++) {
-            for (int i = 0; i < 15; i++) {
-               fw.write("\nbackground sea " + t + " " + i);
-            }
-         }
-         fw.close();
-
-      }
-      catch(IOException e) {
-      }
-   }
    public void draw()
    {
       if (start)
@@ -147,10 +138,6 @@ public final class VirtualWorld
          fill(0, 102, 153, 51);
          if (mousePressed){
             start = true;
-//            player.setPosition(new Point(4, 9));
-//            chaser1.setPosition(new Point(7, 0));
-//            chaser2.setPosition(new Point(0, 0));
-//            pastFirstCheckpoint = false;
             Idied = true;
             player.setAlive(true);
          }
@@ -162,7 +149,6 @@ public final class VirtualWorld
             this.scheduler.updateOnTime(time);
             next_time = time + TIMER_ACTION_PERIOD;
          }
-//
          view.drawViewport(view);
          view.drawCharacter(view);
          if(Idied){
@@ -171,11 +157,17 @@ public final class VirtualWorld
             chaser2.setPosition(new Point(0, 0));
             pastFirstCheckpoint = false;
          }
-         loadCharacter("",this,world, player);
-         loadChaser("", this, world, chaser1);
-         loadChaser("", this, world, chaser2);
+         loadEntity("",this,world, player);
+         loadEntity("", this, world, chaser1);
+         loadEntity("", this, world, chaser2);
+         loadEntity("", this, world, chaser3);
+         loadEntity("", this, world, goal);
          if(player.getPosition().x > 10)
             pastFirstCheckpoint = true;
+
+         if(player.getPosition().x > 22)
+            pastSecondCheckpoint = true;
+
          Idied = false;
          center();
       }
@@ -183,24 +175,12 @@ public final class VirtualWorld
 
    }
 
-//   public void mousePressed()
-//   {
-//      redraw= true;
-//
-//   }
    public void mousePressed()
    {
       if (start==false){
          redraw=true;
       }
-      int section = 0;
-      Point pressed1 = mouseToPoint(mouseX, mouseY);
-      Point pressed = new Point(pressed1.x+section, pressed1.y);
-      writeWalls(pressed);
-
-
    }
-
 
    public void center()
    {
@@ -216,13 +196,8 @@ public final class VirtualWorld
 
    }
 
-
    public void keyPressed()
    {
-      if(pastFirstCheckpoint)
-         this.moveChaser(world, player, chaser1);
-
-      this.moveChaser(world, player, chaser2);
 
       int change = 1;
       if(keyCode == 'A')
@@ -232,6 +207,13 @@ public final class VirtualWorld
 
       if (key == CODED)
       {
+         if(pastFirstCheckpoint)
+            this.moveChaser(world, player, chaser1);
+         if(pastSecondCheckpoint)
+            this.moveChaser(world,player,chaser3);
+
+         this.moveChaser(world, player, chaser2);
+
          int dx = 0;
          int dy = 0;
          Point p;
@@ -271,7 +253,6 @@ public final class VirtualWorld
 
    }
 
-
    public static Background createDefaultBackground(ImageStore imageStore)
    {
       return new Background(DEFAULT_IMAGE_NAME,
@@ -290,7 +271,6 @@ public final class VirtualWorld
       return img;
    }
 
-   // come back
    private static void loadImages(String filename, ImageStore imageStore,
       PApplet screen)
    {
@@ -305,7 +285,7 @@ public final class VirtualWorld
       }
    }
 
-   private static void loadCharacter(String filename, PApplet screen, WorldModel world, Entity p)
+   private static void loadEntity(String filename, PApplet screen, WorldModel world, Entity p)
    {
       try{
          //below line is never used fyi
@@ -318,21 +298,6 @@ public final class VirtualWorld
       }
 
    }
-
-   private static void loadChaser(String filename, PApplet screen, WorldModel world, Entity p)
-   {
-      try{
-         //below line is never used fyi
-         Scanner in = new Scanner((new File("images/player1.bmp")));
-
-         world.addEntity(p);
-
-      } catch (FileNotFoundException e) {
-         e.printStackTrace();
-      }
-
-   }
-
 
    private void moveChaser(WorldModel world, Entity p, chasers chaser){
       Point next = world.nextPoint(chaser, player, Idied);
@@ -352,28 +317,6 @@ public final class VirtualWorld
          System.err.println(e.getMessage());
       }
    }
-
-   private Point mouseToPoint(int x, int y)
-   {
-      return new Point(mouseX/32, mouseY/32);
-   }
-
-
-
-   private void writeWalls(Point p) {
-//         SINGLE USE ONLY DON'T RUN AGAIN
-      try {
-         FileWriter fw = new FileWriter("james_world.sav", true);
-         String msg = "obstacle obstacle_" + p.x + "_" + p.y + " " + p.x +" " + p.y + "\n";
-         System.out.println(msg);
-         fw.write(msg);
-         fw.close();
-
-      }
-      catch(IOException ignored) {
-      }
-   }
-
 
    public static void parseCommandLine(String [] args)
    {

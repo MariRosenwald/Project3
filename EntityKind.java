@@ -9,5 +9,6 @@ enum EntityKind
    QUAKE,
    SGRASS,
    PLAYER,
-   CHASERS
+   CHASERS,
+   GOAL
 }
