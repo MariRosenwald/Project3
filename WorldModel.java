@@ -224,7 +224,7 @@ final class WorldModel
       return Optional.empty();
    }
 
-   public Point nextPoint(chasers c, Player p){
+   public Point nextPoint(chasers c, Player p, boolean Idied){
       //System.out.println(getOccupancyCell(po));
       List<Point> points = strategy.computePath(c.getPosition(), p.getPosition(),
               po ->  withinBounds(po) && !this.isOccupied(po),
@@ -236,8 +236,11 @@ final class WorldModel
       }
       catch (IndexOutOfBoundsException e)
       {
-         System.out.println("YOU LOST YOU GOT KILLED BY BAD GUY");
-         return c.getPosition();
+         if(!Idied){
+            p.setAlive(false);
+         }
+         //System.out.println("YOU LOST YOU GOT KILLED BY BAD GUY");
+         return (c.getPosition());
       }
 
 

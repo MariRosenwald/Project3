@@ -48,6 +48,8 @@ public final class VirtualWorld
    public static double timeScale = 1.0;
    private boolean start= true;
    private boolean redraw=false;
+   public boolean alive = true;
+   private boolean Idied = false;
 
    public ImageStore imageStore;
    public WorldModel world;
@@ -63,7 +65,7 @@ public final class VirtualWorld
    boolean pastFirstCheckpoint = false;
 
    List<PImage> playerImages = Arrays.asList(img, img2, img3, img4);
-   Player player = new Player(EntityKind.PLAYER,"player",new Point(4,9), playerImages, 0,0,0,4);
+   Player player = new Player(EntityKind.PLAYER,"player",new Point(4,9), playerImages, 0,0,0,4, alive);
 
    PImage chaserImg = this.loadImage("images/s1.bmp");
    List<PImage> chaserImages = Arrays.asList(chaserImg);
@@ -117,18 +119,44 @@ public final class VirtualWorld
    {
       if (start)
       {
-         background(255, 255, 0);
+         background(249, 220, 120);
          textSize(40);
          fill(0, 0, 0);
-         text("WELCOME TO BEACH RUN", 70, 150);
+         text("WELCOME TO BEACH RUN", 70, 100);
          textSize(25);
-         fill(50, 50, 50);
-         text("Click here to start", 170, 250);
+         fill(0, 0, 0);
+         text("Pick up the beach ball and bring it home!", 75, 175);
+         fill(0, 0, 0);
+         text("...but don't let the boys catch you...", 100, 210);
+         fill(0, 0, 0);
+         text("Click here to start", 190, 420);
+         fill(0, 0, 0);
+         text("Use arrow keys to move left/right/up/down", 50, 290);
+         fill(0, 0, 0);
+         text("Use 'A' and 'D' to move your view" , 110, 325);
          fill(0, 102, 153, 51);
          start= false;
       }
+      System.out.println(player.isAlive());
+      if(!player.isAlive()){
+         redraw = false;
+         background(240, 50, 26);
+         textSize(40);
+         fill(0, 0, 0);
+         text("...The boys caught you...", 70, 210);
+         fill(0, 102, 153, 51);
+         if (mousePressed){
+            start = true;
+//            player.setPosition(new Point(4, 9));
+//            chaser1.setPosition(new Point(7, 0));
+//            chaser2.setPosition(new Point(0, 0));
+//            pastFirstCheckpoint = false;
+            Idied = true;
+            player.setAlive(true);
+         }
+      }
 
-      if(redraw) {
+      if(redraw && player.isAlive()) {
          long time = System.currentTimeMillis();
          if (time >= next_time) {
             this.scheduler.updateOnTime(time);
@@ -137,13 +165,22 @@ public final class VirtualWorld
 //
          view.drawViewport(view);
          view.drawCharacter(view);
+         if(Idied){
+            player.setPosition(new Point(4, 9));
+            chaser1.setPosition(new Point(7, 0));
+            chaser2.setPosition(new Point(0, 0));
+            pastFirstCheckpoint = false;
+         }
          loadCharacter("",this,world, player);
          loadChaser("", this, world, chaser1);
          loadChaser("", this, world, chaser2);
          if(player.getPosition().x > 10)
             pastFirstCheckpoint = true;
+         Idied = false;
          center();
       }
+
+
    }
 
 //   public void mousePressed()
@@ -164,31 +201,6 @@ public final class VirtualWorld
 
    }
 
-//   public void draw()
-//   {
-//      long time = System.currentTimeMillis();
-//      if (time >= next_time)
-//      {
-//         this.scheduler.updateOnTime(time);
-//         next_time = time + TIMER_ACTION_PERIOD;
-//      }
-////
-//      view.drawViewport(view);
-//      view.drawCharacter(view);
-//      loadCharacter("",this,world, player);
-//      loadChaser("", this, world, chaser1);
-//      loadChaser("", this, world, chaser2);
-//      if(player.getPosition().x > 10)
-//         pastFirstCheckpoint = true;
-//
-//
-//      //this causes the game to crash because there is no way to get to player
-////      moveChaser(world, player, chaser1);
-//
-//
-//      //this makes the character not get stuck onthe border and shifts view by 1 if on the border.
-//      center();
-//   }
 
    public void center()
    {
@@ -323,7 +335,7 @@ public final class VirtualWorld
 
 
    private void moveChaser(WorldModel world, Entity p, chasers chaser){
-      Point next = world.nextPoint(chaser, player);
+      Point next = world.nextPoint(chaser, player, Idied);
       world.moveEntity(chaser, next);
    }
 
